@@ -2,13 +2,13 @@ import express from 'express'
 import dishes from './data/dishes.js'
 import dotenv from'dotenv'
 // import { notFound, errorHandler } from './middleware/errorMiddleware.js'
-// import connectDB from './config/db.js'
+import connectDB from './config/db.js'
 
 // import dishRoutes from './routes/dishRoutes.js'
 
 dotenv.config()
 
-// connectDB()
+connectDB()
 
 const app = express()
 
