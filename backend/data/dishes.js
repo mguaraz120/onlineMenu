@@ -1,6 +1,5 @@
 const dishes = [
   {
-    _id: '1',
     name: "Papaya Salad",
     image: "/images/papayaSalad.jpg",
     description:
@@ -13,7 +12,6 @@ const dishes = [
     numReviews: 12,
   },
   {
-    _id: '2',
     name: "Laab Salad",
     image: "/images/laabSalad.jpg",
     description:
@@ -26,7 +24,6 @@ const dishes = [
     numReviews: 8,
   },
   {
-    _id: '3',
     name: "Chicken Adobo",
     image: "/images/chickenAdobo.jpg",
     description:
@@ -39,7 +36,6 @@ const dishes = [
     numReviews: 12,
   },
   {
-    _id: '4',
     name: "Dumplings",
     image: "/images/dumplings.jpg",
     description:
@@ -52,7 +48,6 @@ const dishes = [
     numReviews: 12,
   },
   {
-    _id: '5',
     name: "Pho",
     image: "/images/pho.jpg",
     description:
@@ -65,7 +60,6 @@ const dishes = [
     numReviews: 10,
   },
   {
-    _id: '6',
     name: "Tacos",
     image: "/images/tacos.jpg",
     description:
