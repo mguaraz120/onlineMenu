@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import axios from 'axios'
 
@@ -14,7 +14,7 @@ const DishScreen = ({match}) => {
             setDish(data)
         }
             fetchDish()
-        }, [])
+        }, [match])
 
     return (
         <>
