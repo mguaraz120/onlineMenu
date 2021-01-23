@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl } from 'react-bootstrap'
 import Rating from '../components/Rating'
-import dishes from '../dishes'
+import axios from 'axios'
+
 const DishScreen = ({match}) => {
-    const dish = dishes.find(d => d._id ===match.params.id)
+    const [dish, setDish] = useState({})
+
+    useEffect(() => {
+        const fetchDish = async () => {
+            const { data } = await axios.get(`/api/dishes/${match.params.id}`)
+    
+            setDish(data)
+        }
+            fetchDish()
+        }, [])
+
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
