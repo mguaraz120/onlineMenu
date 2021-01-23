@@ -10,7 +10,7 @@ const HomeScreen = () => {
             <h1>Best Dishes</h1>
             <Row>
                 {dishes.map(dish => (
-                    <Col sm={12} md={6} lg={4} xl={3}>
+                    <Col key={dish._id} sm={12} md={6} lg={4} xl={3}>
                     <Dish dish={dish}/>
                     </Col>
                 ))}
