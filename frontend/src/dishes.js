@@ -21,7 +21,7 @@ const dishes = [
       brand: "Laos Dish",
       category: "Asian",
       price: 10.99,
-      countInStock: 7,
+      countInStock: 10,
       rating: 4.0,
       numReviews: 8,
     },
