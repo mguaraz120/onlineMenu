@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from 'react-bootstrap'
+import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listDishDetails } from '../actions/dishActions'
 
-const DishScreen = ({match}) => {
+const DishScreen = ({history, match}) => {
+    const [qty, setQty] = useState(0)
+
     const dispatch = useDispatch()
 
     const dishDetails = useSelector(state => state.dishDetails)
@@ -16,6 +18,10 @@ const DishScreen = ({match}) => {
     useEffect(() => {
         dispatch(listDishDetails(match.params.id))
         }, [dispatch, match])
+
+    const addToCartHandler = () => {
+        history.push(`/cart/${match.params.id}?qty=${qty}`)
+    }
 
     return (
         <>
@@ -71,19 +77,24 @@ const DishScreen = ({match}) => {
                                 </Row>
                             </ListGroupItem>
 
-                             
+                            {dish.countInStock > 0 && (
                                 <ListGroupItem>
                                     <Row>
                                         <Col>Qty</Col>
                                         <Col>
-    
+                                            <FormControl as='select' value={qty} onChange={e => setQty(e.target.value)}>
+                                                {[...Array(dish.countInStock).keys()].map(x => (
+                                                    <option key={x + 1} value={x+1}> {x+1} </option>
+                                                ))}
+                                            </FormControl>
                                         </Col>
                                     </Row>
                                 </ListGroupItem>
-                            
+                            )}
 
                             <ListGroupItem>
                                 <Button 
+                                    onClick={addToCartHandler}
                                     className='btn-block'
                                     type='button'
                                     disabled={dish.countInStock ===0}
