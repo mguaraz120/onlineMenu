@@ -1,6 +1,6 @@
 import express from 'express'
 import dotenv from'dotenv'
-// import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 
 import dishRoutes from './routes/dishRoutes.js'
@@ -17,9 +17,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/dishes', dishRoutes)
 
-// app.use(notFound)
+app.use(notFound)
 
-// app.use(errorHandler)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
 
