@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-// import { dishListReducer, dishDetailsReducer } from './reducers/dishReducers'
+import { dishListReducer, dishDetailsReducer } from './reducers/dishReducers'
 // import { cartReducer } from './reducers/cartReducers'
 
 const reducer = combineReducers({
-    // dishList: dishListReducer,
+    dishList: dishListReducer,
     // dishDetails: dishDetailsReducer,
     // cart: cartReducer,
 })
