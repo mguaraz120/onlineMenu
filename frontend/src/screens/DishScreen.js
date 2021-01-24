@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from 'react-bootstrap'
 import Rating from '../components/Rating'
-import axios from 'axios'
+import Message from '../components/Message'
+import Loader from '../components/Loader'
+import { listDishDetails } from '../actions/dishActions'
 
 const DishScreen = ({match}) => {
-    const [dish, setDish] = useState({})
+    const dispatch = useDispatch()
+
+    const dishDetails = useSelector(state => state.dishDetails)
+    const { loading, error, dish } = dishDetails
 
     useEffect(() => {
-        const fetchDish = async () => {
-            const { data } = await axios.get(`/api/dishes/${match.params.id}`)
-    
-            setDish(data)
-        }
-            fetchDish()
-        }, [match])
+        dispatch(listDishDetails(match.params.id))
+        }, [dispatch, match])
 
     return (
         <>
             <Link className='btn btn-light my-3' to='/'>
                 Go Back
             </Link>
+            {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
             <Row>
                 <Col md={6}>
                     <Image src={dish.image} alt={dish.name} fluid />
@@ -93,6 +95,7 @@ const DishScreen = ({match}) => {
                     </Card>
                 </Col>
             </Row>
+            )}
         </>
     )
 }

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 import Dish from '../components/Dish'
+import Loader from '../components/Loader'
+import Message from '../components/Message'
 import { listDishes } from '../actions/dishActions'
 
 
@@ -19,9 +21,9 @@ const HomeScreen = () => {
         <>
             <h1>Best Dishes</h1>
             {loading ? 
-                <h2>Loading...</h2> 
+                <Loader />
                 : error ? 
-                <h3>{error}</h3> :             
+                <Message variant='danger'>{error}</Message> :             
                 <Row>
                     {dishes.map(dish => (
                         <Col key={dish._id} sm={12} md={6} lg={4} xl={3}>

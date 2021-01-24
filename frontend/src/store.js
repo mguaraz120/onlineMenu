@@ -6,7 +6,7 @@ import { dishListReducer, dishDetailsReducer } from './reducers/dishReducers'
 
 const reducer = combineReducers({
     dishList: dishListReducer,
-    // dishDetails: dishDetailsReducer,
+    dishDetails: dishDetailsReducer,
     // cart: cartReducer,
 })
 
