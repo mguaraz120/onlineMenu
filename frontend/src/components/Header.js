@@ -13,7 +13,7 @@ const Header = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
                             <LinkContainer to='/'>
-                                <Nav.Link href="/"><i class="fas fa-clipboard-list"></i> Main Menu</Nav.Link>
+                                <Nav.Link href="/"><i className="fas fa-clipboard-list"></i> Main Menu</Nav.Link>
                             </LinkContainer>
                             <LinkContainer to='/cart'>
                                 <Nav.Link href="/cart"><i className='fas fa-utensils'></i> Your Tray</Nav.Link>
