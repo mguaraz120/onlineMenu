@@ -17,7 +17,7 @@ function App() {
       <main className='py-3'>
         <Container>
           <Route path='/login' component={LoginScreen} />
-          <Route path='/profile' component={ProfileScreen} />
+          <Route path='/perfil' component={ProfileScreen} />
           <Route path='/register' component={RegisterScreen} />
           <Route path='/dish/:id' component={DishScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
