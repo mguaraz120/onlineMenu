@@ -18,3 +18,7 @@ h2 {
 .rating span {
 	margin: 0.1rem;
 }
+.placeOrderList {
+	background: rgb(236, 231, 231);
+	border: 0;
+}
