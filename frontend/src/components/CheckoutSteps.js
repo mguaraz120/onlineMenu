@@ -1,7 +1,6 @@
 import React from 'react'
 import { Nav, NavItem } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import { NavLink } from 'react-router-dom'
 
 const CheckoutSteps = ({ step1, step2, step3 }) => {
     return (
@@ -9,28 +8,28 @@ const CheckoutSteps = ({ step1, step2, step3 }) => {
             <NavItem>
                 {step1 ? (
                     <LinkContainer to='/login'>
-                        <NavLink>Sign In</NavLink>
+                        <Nav.Link>Sign In</Nav.Link>
                     </LinkContainer>
                 ) : (
-                    <NavLink disabled>Sign In</NavLink>
+                    <Nav.Link disabled>Sign In</Nav.Link>
                 )}
             </NavItem>
             <NavItem>
-                {step1 ? (
+                {step2 ? (
                     <LinkContainer to='/payment'>
-                        <NavLink>Payment</NavLink>
+                        <Nav.Link>Payment</Nav.Link>
                     </LinkContainer>
                 ) : (
-                    <NavLink disabled>Payment</NavLink>
+                    <Nav.Link disabled>Payment</Nav.Link>
                 )}
             </NavItem>
             <NavItem>
-                {step1 ? (
-                    <LinkContainer to='/Placeorder'>
-                        <NavLink>Place Order</NavLink>
+                {step3 ? (
+                    <LinkContainer to='/placeorder'>
+                        <Nav.Link>Place Order</Nav.Link>
                     </LinkContainer>
                 ) : (
-                    <NavLink disabled>Place Order</NavLink>
+                    <Nav.Link disabled>Place Order</Nav.Link>
                 )}
             </NavItem>
         </Nav>
