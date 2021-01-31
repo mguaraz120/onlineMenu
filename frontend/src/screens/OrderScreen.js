@@ -2,65 +2,65 @@ import React, {useEffect} from 'react'
 import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
-import CheckoutSteps from '../components/CheckoutSteps'
+import Loader from '../components/Loader'
 import { Link } from 'react-router-dom'
-import { createOrder } from '../actions/orderActions'
+import { getOrderDetails } from '../actions/orderActions'
 
-const PlaceOrderScreen = ({history}) => {
+const OrderScreen = ({match}) => {
+
+    const orderId = match.params.id
+
     const dispatch = useDispatch()
 
-    const cart = useSelector(state => state.cart)
+    const orderDetails = useSelector(state => state.orderDetails)
+    const { order, loading, error } = orderDetails
 
     // Calculate prices
-    const addDecimals = (num) => {
-        return (Math.round(num * 100)/ 100).toFixed(2)
-    }
-
-    cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
+    if(!loading){
+        const addDecimals = (num) => {
+            return (Math.round(num * 100)/ 100).toFixed(2)
+        }
     
-    cart.taxPrice = addDecimals(Number((0.09 * cart.itemsPrice).toFixed(2)))
-
-    cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.taxPrice)).toFixed(2)
-
-    const orderCreate = useSelector(state => state.orderCreate)
-    const { order, success, error } = orderCreate
+        order.itemsPrice = addDecimals(order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0))
+    }
 
     useEffect(() => {
-        
-        if (success) {
-            history.push(`/orders/${order._id}`)
-        }
-        // eslint-disable-next-line
-    }, [history, success])
+        dispatch(getOrderDetails(orderId))
+    }, [dispatch, orderId])
 
-    const PlaceOrderHandler = () => {
-        dispatch(createOrder({
-            orderItems: cart.cartItems,
-            paymentMethod: cart.paymentMethod,
-            itemsPrice: cart.itemsPrice,
-            taxPrice: cart.taxPrice,
-            totalPrice: cart.totalPrice,
-        }))
-    }
 
     return (
+        loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> 
+        : 
         <>
-            < CheckoutSteps step1 step2 step3 />
-            <Row>
+        <h1>Order {order._id}</h1>
+        <Row>
                 <Col md={8}>
                     <ListGroup >
                         <ListGroupItem>
-                            <h2>Payment Method</h2>
-                            <strong>Method: </strong>
-                            {cart.paymentMethod}
+                            <h2>Current Status</h2>
+                        
+                            {order.isPaid 
+                            ? 
+                            <Message variant='success'>Paid on {order.paidAt}</Message>
+                            : 
+                            <Message variant='danger'>Not Paid</Message>
+                            }
+
+                            {order.isDelivered 
+                            ? 
+                            <Message variant='success'>Food is Ready {order.deliveredAt}</Message>
+                            : 
+                            <Message variant='danger'>Food is Not Ready Yet</Message>
+                            }
                         </ListGroupItem>
 
                         <ListGroupItem>
                             <h2>Order Items</h2>
-                            {' '}{cart.cartItems.length === 0 ? <Message>Your tray is empty</Message> :
+                            {' '}{order.orderItems.length === 0 ? <Message>Your tray is empty</Message> :
                             (
                                 <ListGroup variant='flush'>
-                                    {cart.cartItems.map((item, index) => (
+                                    {order.orderItems.map((item, index) => (
                                         <ListGroupItem key={index}>
                                             <Row>
                                                 <Col md={2}>
@@ -92,34 +92,22 @@ const PlaceOrderScreen = ({history}) => {
                             <ListGroupItem>
                                 <Row>
                                     <Col>Items</Col>
-                                    <Col>${cart.itemsPrice}</Col>
+                                    <Col>${order.itemsPrice}</Col>
                                 </Row>
                             </ListGroupItem>
                             <ListGroupItem>
                                 <Row>
                                     <Col>Tax</Col>
-                                    <Col>${cart.taxPrice}</Col>
+                                    <Col>${order.taxPrice}</Col>
                                 </Row>
                             </ListGroupItem>
                             <ListGroupItem>
                                 <Row>
                                     <Col>Total</Col>
-                                    <Col>${cart.totalPrice}</Col>
+                                    <Col>${order.totalPrice}</Col>
                                 </Row>
                             </ListGroupItem>
-                            <ListGroupItem>
-                                {error && <Message variant='danger'>{error}</Message>}
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                <Button
-                                    type='button'
-                                    className='btn-block'
-                                    disabled={cart.cartItems === 0}
-                                    onClick={PlaceOrderHandler}
-                                >
-                                    Place Order
-                                </Button>
-                            </ListGroupItem>
+  
                         </ListGroup>
                     </Card>
                 </Col>
@@ -128,4 +116,4 @@ const PlaceOrderScreen = ({history}) => {
     )
 }
 
-export default PlaceOrderScreen
+export default OrderScreen
