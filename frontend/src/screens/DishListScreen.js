@@ -4,13 +4,19 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listDishes } from '../actions/dishActions'
+import { listDishes, deleteDish } from '../actions/dishActions'
 
 const DishListScreen = ({ history, match }) => {
     const dispatch = useDispatch()
 
     const dishList = useSelector(state => state.dishList)
     const { loading, error, dishes} = dishList
+
+    const dishDelete = useSelector(state => state.dishDelete)
+    const { 
+        loading: loadingDelete, 
+        error: errorDelete,
+        success: successDelete} = dishDelete
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -21,11 +27,11 @@ const DishListScreen = ({ history, match }) => {
         } else {
             history.push('/login')
         }
-    }, [dispatch, userInfo, history])
+    }, [dispatch, userInfo, history, successDelete])
 
     const deleteHandler = (id) => {
         if(window.confirm('Are you sure?')){
-            //delete dishes
+            dispatch(deleteDish(id))
         }
     }
 
@@ -45,6 +51,8 @@ const DishListScreen = ({ history, match }) => {
                     </Button>
                 </Col>
             </Row>
+            {loadingDelete && <Loader />}
+            {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
             {loading ? <Loader /> : error 
             ? 
             <Message variant='danger'>{error}</Message> 

@@ -25,6 +25,23 @@ const getDishById = asyncHandler(async(req, res) => {
     }
 })
 
+// @desc    delete a dish
+// @route   DELETE /api/dishes/:id
+// @access  Private/Admin
+const deleteDish = asyncHandler(async(req, res) => {
+    const dish = await Dish.findById(req.params.id)
+
+    if(dish){
+        await dish.remove()
+        res.json({ message: 'Dish removed' })
+    }else{
+        res.status(404)
+        throw new Error('Dish not found')
+    }
+})
+
 export {
-    getDishes, getDishById
+    getDishes, 
+    getDishById,
+    deleteDish
 }
