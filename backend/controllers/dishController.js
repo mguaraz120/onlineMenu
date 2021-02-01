@@ -40,8 +40,66 @@ const deleteDish = asyncHandler(async(req, res) => {
     }
 })
 
+// @desc    create a dish
+// @route   POST /api/dishes
+// @access  Private/Admin
+const createDish = asyncHandler(async(req, res) => {
+    const dish = new Dish({
+        name: 'Sample name',
+        price: 0,
+        user: req.user._id,
+        image: '/images/sample.jpg',
+        brand: 'Sample brand',
+        category: 'Sample category',
+        countInStock: 0,
+        numreviews: 0,
+        description: 'Sample description',
+    })
+
+    const createdDish = await dish.save()
+    res.status(201).json(createdDish)
+})
+
+// @desc    update a dish
+// @route   PUT /api/dishes/:id
+// @access  Private/Admin
+const updateDish = asyncHandler(async(req, res) => {
+  
+    const {
+        name, 
+        price, 
+        description, 
+        image,
+        brand,
+        category, 
+        countInStock
+    } = req.body
+
+    const dish = await Dish.findById(req.params.id)
+
+    if(dish){
+        dish.name = name
+        dish.price = price
+        dish.description = description
+        dish.image = image
+        dish.brand = brand
+        dish.category = category
+        dish.countInStock = countInStock
+
+        const updatedDish = await dish.save()
+        res.json(updatedDish)
+    } else {
+        res.status(404)
+        throw new Error('Product not found')
+    }
+
+
+})
+
 export {
     getDishes, 
     getDishById,
-    deleteDish
+    deleteDish,
+    createDish,
+    updateDish
 }
