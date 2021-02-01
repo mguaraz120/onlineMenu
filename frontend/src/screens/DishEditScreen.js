@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { listDishDetails } from '../actions/dishActions'
+import { listDishDetails, updateDish } from '../actions/dishActions'
+import { DISH_UPDATE_RESET } from '../constants/dishConstants'
 
 
 const DishEditScreen = ({ match, history }) => {
@@ -23,9 +24,18 @@ const DishEditScreen = ({ match, history }) => {
 
     const dishDetails = useSelector(state => state.dishDetails)
     const { loading, error, dish } = dishDetails
+
+    const dishUpdate = useSelector(state => state.dishUpdate)
+    const { 
+        loading: loadingUpdate, 
+        error: errorUpdate, 
+        success: successUpdate } = dishUpdate
   
     useEffect(() => {
-
+        if(successUpdate){
+            dispatch({type: DISH_UPDATE_RESET})
+            history.push('/admin/dishlist')
+        } else {
             if(!dish.name || dish._id !==dishId) {
                 dispatch(listDishDetails(dishId))
             } else {
@@ -37,12 +47,21 @@ const DishEditScreen = ({ match, history }) => {
                 setCountInStock(dish.countInStock)
                 setDescription(dish.description)
             }
-        
-    }, [dispatch, dish, dishId, history])
+        }     
+    }, [dispatch, dish, dishId, history, successUpdate])
 
     const submitHandler = e => {
         e.preventDefault()
-        //Update Dish
+        dispatch(updateDish({
+            _id: dishId,
+            name, 
+            price,
+            image,
+            brand, 
+            category,
+            countInStock,
+            description
+        }))
     }
     
     return (
@@ -52,7 +71,8 @@ const DishEditScreen = ({ match, history }) => {
             </Link>
             <FormContainer>
             <h1>edit Dish</h1>
-
+            {loadingUpdate && <Loader />}
+            {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
             {loading ? <Loader /> : error 
             ? 
             <Message variant='danger'>{error}</Message>
@@ -70,13 +90,13 @@ const DishEditScreen = ({ match, history }) => {
                     </FormGroup>
 
                     <FormGroup controlId='price'>
-                        <FormLabel>Price</FormLabel>
-                        <FormControl 
+                        <FormLabel>price</FormLabel>
+                        <Form.Control 
                             type='number'
-                            placeholder='Enter Price'
+                            placeholder='Enter price'
                             value={price}
                             onChange={e => setPrice(e.target.value)}
-                        ></FormControl>
+                        ></Form.Control>
                     </FormGroup>
 
                     <FormGroup controlId='image'>

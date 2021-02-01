@@ -12,7 +12,10 @@ import {
     DISH_DELETE_FAIL,
     DISH_CREATE_REQUEST,
     DISH_CREATE_SUCCESS,
-    DISH_CREATE_FAIL
+    DISH_CREATE_FAIL,
+    DISH_UPDATE_REQUEST,
+    DISH_UPDATE_SUCCESS,
+    DISH_UPDATE_FAIL
 } from '../constants/dishConstants'
 
 
@@ -109,6 +112,37 @@ export const createDish = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: DISH_CREATE_FAIL,
+            payload: error.response && error.response.data.message 
+                ? error.response.data.message
+                : error.message
+
+        })
+    }
+}
+
+export const updateDish = (dish) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: DISH_UPDATE_REQUEST
+        })
+
+        const { userLogin: { userInfo} } = getState()
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        const { data } = await axios.put(`/api/dishes/${dish._id}`, dish, config)
+        dispatch({
+            type: DISH_UPDATE_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DISH_UPDATE_FAIL,
             payload: error.response && error.response.data.message 
                 ? error.response.data.message
                 : error.message
