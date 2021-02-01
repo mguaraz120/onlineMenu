@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Button, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
@@ -19,6 +20,7 @@ const DishEditScreen = ({ match, history }) => {
     const [category, setCategory] = useState('')
     const [countInStock, setCountInStock] = useState(0)
     const [description, setDescription] = useState('')
+    const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -49,6 +51,26 @@ const DishEditScreen = ({ match, history }) => {
             }
         }     
     }, [dispatch, dish, dishId, history, successUpdate])
+
+    const uplodFileHandler = async (e) => {
+        const file = e.target.files[0]
+        const formData = new FormData()
+        formData.append('image', file)
+        setUploading(true)
+        try {
+            const config ={
+                headers: {
+                    'Content-Type': 'multipar/form-data'
+                }
+            }
+          const { data } = await axios.post('/api/upload', formData, config)
+          setImage(data)
+          setUploading(false)
+        } catch (error) {
+            console.log(error)
+            setUploading(false)
+        }
+    }
 
     const submitHandler = e => {
         e.preventDefault()
@@ -107,6 +129,13 @@ const DishEditScreen = ({ match, history }) => {
                             value={image}
                             onChange={e => setImage(e.target.value)}
                             ></FormControl>
+                            <Form.File 
+                                id='image-file'
+                                label='Choose file'
+                                custom
+                                onChange={uplodFileHandler}
+                            ></Form.File>
+                            {uploading && <Loader />}
                     </FormGroup>
 
                     <FormGroup controlId='brand'>
