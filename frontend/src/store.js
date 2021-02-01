@@ -4,7 +4,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { 
     dishListReducer, 
     dishDetailsReducer,
-    dishDeleteReducer 
+    dishDeleteReducer,
+    dishCreateReducer 
 } from './reducers/dishReducers'
 import { cartReducer } from './reducers/cartReducers'
 import { 
@@ -27,6 +28,7 @@ const reducer = combineReducers({
     dishList: dishListReducer,
     dishDetails: dishDetailsReducer,
     dishDelete: dishDeleteReducer,
+    dishCreate: dishCreateReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,

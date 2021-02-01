@@ -4,7 +4,9 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listDishes, deleteDish } from '../actions/dishActions'
+import { listDishes, deleteDish, createDish } from '../actions/dishActions'
+import { DISH_CREATE_RESET} from '../constants/dishConstants'
+
 
 const DishListScreen = ({ history, match }) => {
     const dispatch = useDispatch()
@@ -18,16 +20,30 @@ const DishListScreen = ({ history, match }) => {
         error: errorDelete,
         success: successDelete} = dishDelete
 
+        const dishCreate = useSelector(state => state.dishCreate)
+    const { 
+        loading: loadingCreate, 
+        error: errorCreate,
+        success: successCreate,
+        dish: createdDish,
+    } = dishCreate
+
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
     useEffect(() => {
-        if(userInfo && userInfo.isAdmin){
-            dispatch(listDishes())
-        } else {
+        dispatch({type: DISH_CREATE_RESET})
+
+        if(!userInfo.isAdmin){
             history.push('/login')
         }
-    }, [dispatch, userInfo, history, successDelete])
+        if(successCreate){
+            history.push(`/admin/dish/${createdDish._id}/edit`)
+        } else {
+            dispatch(listDishes())
+        }
+
+    }, [dispatch, userInfo, history, successDelete, successCreate, createdDish])
 
     const deleteHandler = (id) => {
         if(window.confirm('Are you sure?')){
@@ -35,8 +51,8 @@ const DishListScreen = ({ history, match }) => {
         }
     }
 
-    const createDishHandler = (dish) => {
-        console.log(dish)
+    const createDishHandler = () => {
+        dispatch(createDish())
     }
 
     return (
@@ -53,6 +69,8 @@ const DishListScreen = ({ history, match }) => {
             </Row>
             {loadingDelete && <Loader />}
             {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            {loadingCreate && <Loader />}
+            {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             {loading ? <Loader /> : error 
             ? 
             <Message variant='danger'>{error}</Message> 

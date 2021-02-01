@@ -7,7 +7,11 @@ import {
     DISH_DETAILS_FAIL,
     DISH_DELETE_REQUEST,
     DISH_DELETE_SUCCESS,
-    DISH_DELETE_FAIL
+    DISH_DELETE_FAIL,
+    DISH_CREATE_REQUEST,
+    DISH_CREATE_SUCCESS,
+    DISH_CREATE_FAIL,
+    DISH_CREATE_RESET
 } from '../constants/dishConstants'
 
 export const dishListReducer = (state = {dishes: [] }, action) => {
@@ -44,6 +48,21 @@ export const dishDeleteReducer = (state = { }, action) => {
             return { loading: false, success: true }
         case DISH_DELETE_FAIL:
             return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const dishCreateReducer = (state = { }, action) => {
+    switch (action.type) {
+        case DISH_CREATE_REQUEST:
+            return { loading: true }
+        case DISH_CREATE_SUCCESS:
+            return { loading: false, success: true, dish: action.payload }
+        case DISH_CREATE_FAIL:
+            return { loading: false, error: action.payload }
+        case DISH_CREATE_RESET:
+            return {}
         default:
             return state
     }
