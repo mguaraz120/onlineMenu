@@ -96,10 +96,50 @@ const updateDish = asyncHandler(async(req, res) => {
 
 })
 
+// @desc    Create new Review
+// @route   POST /api/dishes/:id/reviews
+// @access  Private
+const createDishReview = asyncHandler(async(req, res) => {
+  
+    const {rating, comment} = req.body
+
+    const dish = await Dish.findById(req.params.id)
+
+    if(dish){
+        const alreadyReviwed = dish.reviews
+            .find(r => r.user.toString() === req.user._id.toString())
+
+        if(alreadyReviwed){
+            res.status(400)
+            throw new Error('Dish already reviewed')
+        }
+        const review = {
+            name: req.user.name,
+            rating: Number(rating),
+            comment,
+            user: req.user._id
+        }
+
+        dish.reviews.push(review)
+        dish.numreviews = dish.reviews.length
+        dish.rating = dish.reviews.reduce((acc, item) => item.rating + acc, 0)
+            / dish.reviews.length
+
+        await dish.save()
+        res.status(201).json({message: 'Review added'})
+    } else {
+        res.status(404)
+        throw new Error('Product not found')
+    }
+
+
+})
+
 export {
     getDishes, 
     getDishById,
     deleteDish,
     createDish,
-    updateDish
+    updateDish,
+    createDishReview
 }
