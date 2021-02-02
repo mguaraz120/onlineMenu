@@ -56,7 +56,7 @@ const OrderListScreen = ({ history }) => {
                             </td>
                             <td> 
                                 {order.isDelivered
-                                    ? order.deliveredAt.substring(0, 10) 
+                                    ? <Message variant='success'>Yes, Ready!</Message> 
                                     : (<i className='fas fa-times' style={{color:'red'}}></i>)
                                 }
                             </td>
