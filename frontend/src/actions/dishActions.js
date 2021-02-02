@@ -15,7 +15,10 @@ import {
     DISH_CREATE_FAIL,
     DISH_UPDATE_REQUEST,
     DISH_UPDATE_SUCCESS,
-    DISH_UPDATE_FAIL
+    DISH_UPDATE_FAIL,
+    DISH_CREATE_REVIEW_REQUEST,
+    DISH_CREATE_REVIEW_SUCCESS,
+    DISH_CREATE_REVIEW_FAIL
 } from '../constants/dishConstants'
 
 
@@ -143,6 +146,36 @@ export const updateDish = (dish) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: DISH_UPDATE_FAIL,
+            payload: error.response && error.response.data.message 
+                ? error.response.data.message
+                : error.message
+
+        })
+    }
+}
+
+export const createReviewDish = (dishId, review) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: DISH_CREATE_REVIEW_REQUEST
+        })
+
+        const { userLogin: { userInfo} } = getState()
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        await axios.post(`/api/dishes/${dishId}/reviews`, review, config)
+        dispatch({
+            type: DISH_CREATE_REVIEW_SUCCESS,
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DISH_CREATE_REVIEW_FAIL,
             payload: error.response && error.response.data.message 
                 ? error.response.data.message
                 : error.message

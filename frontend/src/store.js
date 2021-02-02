@@ -6,7 +6,8 @@ import {
     dishDetailsReducer,
     dishDeleteReducer,
     dishCreateReducer, 
-    dishUpdateReducer 
+    dishUpdateReducer,
+    dishCreateReviewReducer 
 } from './reducers/dishReducers'
 import { cartReducer } from './reducers/cartReducers'
 import { 
@@ -33,6 +34,7 @@ const reducer = combineReducers({
     dishDelete: dishDeleteReducer,
     dishCreate: dishCreateReducer,
     dishUpdate: dishUpdateReducer,
+    dishCreateReview: dishCreateReviewReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
