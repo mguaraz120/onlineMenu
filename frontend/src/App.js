@@ -37,6 +37,7 @@ function App() {
           <Route path='/admin/dishlist' component={DishListScreen} />
           <Route path='/admin/dish/:id/edit' component={DishEditScreen} />
           <Route path='/admin/orderlist' component={OrderListScreen} />
+          <Route path='/search/:keyword' component={HomeScreen} />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

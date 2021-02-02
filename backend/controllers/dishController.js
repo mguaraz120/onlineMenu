@@ -6,7 +6,14 @@ import Dish from '../models/dishModel.js'
 // @route GET /api/dishes
 // @access Public
 const getDishes = asyncHandler(async(req, res) => {
-    const dishes = await Dish.find({})
+    const keyword = req.query.keyword ? {
+        name: {
+            $regex: req.query.keyword, 
+            $options: 'i'
+        }
+    } : {}
+
+    const dishes = await Dish.find({...keyword})
 
     res.json(dishes)
 })

@@ -22,11 +22,11 @@ import {
 } from '../constants/dishConstants'
 
 
-export const listDishes = () => async(dispatch) => {
+export const listDishes = (keyword = '') => async(dispatch) => {
     try {
         dispatch({ type: DISH_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/dishes')
+        const { data } = await axios.get(`/api/dishes?keyword=${keyword}`)
 
         dispatch({
             type: DISH_LIST_SUCCESS,

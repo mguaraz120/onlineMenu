@@ -7,15 +7,17 @@ import Message from '../components/Message'
 import { listDishes } from '../actions/dishActions'
 
 
-const HomeScreen = () => {
+const HomeScreen = ({match}) => {
+    const keyword = match.params.keyword
+
     const dispatch = useDispatch()
 
     const dishList = useSelector(state => state.dishList)
     const { loading, error, dishes } = dishList
 
     useEffect(() => {
-        dispatch(listDishes())
-    }, [dispatch])
+        dispatch(listDishes(keyword))
+    }, [dispatch, keyword])
 
     return (
         <>
