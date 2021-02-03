@@ -5,6 +5,7 @@ import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem, FormControl, F
 import Rating from '../components/Rating'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Meta from '../components/Meta'
 import { listDishDetails, createReviewDish } from '../actions/dishActions'
 import {DISH_CREATE_REVIEW_RESET} from '../constants/dishConstants'
 
@@ -53,6 +54,7 @@ const DishScreen = ({history, match}) => {
             </Link>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
             <>
+                <Meta title ={dish.name}/>
                 <Row>
                     <Col md={6}>
                         <Image src={dish.image} alt={dish.name} fluid />

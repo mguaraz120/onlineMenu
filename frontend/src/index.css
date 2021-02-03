@@ -33,7 +33,6 @@ h2 {
 .carousel-item.active {
 	display: flex;
 	background: #5f9ea0;
-	border-radius: 5%;
 }
 .carousel-caption {
 	position: absolute;
