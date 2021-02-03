@@ -4,15 +4,22 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listDishes, deleteDish, createDish } from '../actions/dishActions'
+import Paginate from '../components/Paginate'
+import { 
+    listDishes, 
+    deleteDish, 
+    createDish 
+} from '../actions/dishActions'
 import { DISH_CREATE_RESET} from '../constants/dishConstants'
 
+    const DishListScreen = ({ history, match }) => {
+    const pageNumber = match.params.pageNumber || 1
 
-const DishListScreen = ({ history, match }) => {
+
     const dispatch = useDispatch()
 
     const dishList = useSelector(state => state.dishList)
-    const { loading, error, dishes} = dishList
+    const { loading, error, dishes, page, pages} = dishList
 
     const dishDelete = useSelector(state => state.dishDelete)
     const { 
@@ -40,10 +47,10 @@ const DishListScreen = ({ history, match }) => {
         if(successCreate){
             history.push(`/admin/dish/${createdDish._id}/edit`)
         } else {
-            dispatch(listDishes())
+            dispatch(listDishes('', pageNumber))
         }
 
-    }, [dispatch, userInfo, history, successDelete, successCreate, createdDish])
+    }, [dispatch, userInfo, pageNumber, history, successDelete, successCreate, createdDish])
 
     const deleteHandler = (id) => {
         if(window.confirm('Are you sure?')){
@@ -75,6 +82,7 @@ const DishListScreen = ({ history, match }) => {
             ? 
             <Message variant='danger'>{error}</Message> 
             :
+            <>
             <Table striped bordered hover responsive className='table-sm'>
                 <thead>
                     <tr>
@@ -111,6 +119,8 @@ const DishListScreen = ({ history, match }) => {
                     ))}
                 </tbody>
             </Table>
+            <Paginate page={page} pages={pages} isAdmin={true}/>
+            </>
             }
         </>
     )

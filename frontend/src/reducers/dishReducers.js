@@ -27,7 +27,11 @@ export const dishListReducer = (state = {dishes: [] }, action) => {
         case DISH_LIST_REQUEST:
             return { loading: true, dishes: [] }
         case DISH_LIST_SUCCESS:
-            return { loading: false, dishes: action.payload }
+            return { loading: false, 
+                    dishes: action.payload.dishes,
+                    pages: action.payload.pages,
+                    page: action.payload.page
+                 }
         case DISH_LIST_FAIL:
             return { loading: false, error: action.payload }
         default:

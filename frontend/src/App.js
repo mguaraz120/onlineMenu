@@ -34,10 +34,13 @@ function App() {
           <Route path='/cart/:id?' component={CartScreen} />
           <Route path='/admin/userlist' component={UsersListScreen} />
           <Route path='/admin/user/:id/edit' component={UserEditScreen} />
-          <Route path='/admin/dishlist' component={DishListScreen} />
+          <Route path='/admin/dishlist' component={DishListScreen} exact/>
+          <Route path='/admin/dishlist/:pageNumber' component={DishListScreen} exact/>
           <Route path='/admin/dish/:id/edit' component={DishEditScreen} />
           <Route path='/admin/orderlist' component={OrderListScreen} />
-          <Route path='/search/:keyword' component={HomeScreen} />
+          <Route path='/search/:keyword' component={HomeScreen} exact/>
+          <Route path='/page/:pageNumber' component={HomeScreen} exact />
+          <Route path='/search/:keyword/page/:pageNumber' component={HomeScreen} exact />
           <Route path='/' component={HomeScreen} exact />
         </Container>
       </main>

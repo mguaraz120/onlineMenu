@@ -6,6 +6,9 @@ import Dish from '../models/dishModel.js'
 // @route GET /api/dishes
 // @access Public
 const getDishes = asyncHandler(async(req, res) => {
+    const pageSize = 9
+    const page = Number(req.query.pageNumber) || 1
+
     const keyword = req.query.keyword ? {
         name: {
             $regex: req.query.keyword, 
@@ -13,9 +16,13 @@ const getDishes = asyncHandler(async(req, res) => {
         }
     } : {}
 
-    const dishes = await Dish.find({...keyword})
+    const count = await Dish.countDocuments({...keyword})
+    const dishes = await Dish
+                            .find({...keyword})
+                            .limit(pageSize)
+                            .skip(pageSize * (page - 1))
 
-    res.json(dishes)
+    res.json({dishes, page, pages: Math.ceil(count / pageSize)})
 })
 
 // @desc Fetch single dish
