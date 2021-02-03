@@ -149,11 +149,20 @@ const createDishReview = asyncHandler(async(req, res) => {
 
 })
 
+// @desc    Get top rated dishes
+// @route   GET /api/dishes/top
+// @access  Public
+const getTopDishes = asyncHandler(async(req, res) => {
+    const dishes = await Dish.find({}).sort({ rating: -1}).limit(3)
+    res.json(dishes)
+})
+
 export {
     getDishes, 
     getDishById,
     deleteDish,
     createDish,
     updateDish,
-    createDishReview
+    createDishReview,
+    getTopDishes
 }

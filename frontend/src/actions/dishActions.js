@@ -18,7 +18,10 @@ import {
     DISH_UPDATE_FAIL,
     DISH_CREATE_REVIEW_REQUEST,
     DISH_CREATE_REVIEW_SUCCESS,
-    DISH_CREATE_REVIEW_FAIL
+    DISH_CREATE_REVIEW_FAIL,
+    DISH_TOP_REQUEST,
+    DISH_TOP_SUCCESS,
+    DISH_TOP_FAIL
 } from '../constants/dishConstants'
 
 
@@ -176,6 +179,27 @@ export const createReviewDish = (dishId, review) => async (dispatch, getState) =
     } catch (error) {
         dispatch({
             type: DISH_CREATE_REVIEW_FAIL,
+            payload: error.response && error.response.data.message 
+                ? error.response.data.message
+                : error.message
+
+        })
+    }
+}
+
+export const listTopDishes = () => async(dispatch) => {
+    try {
+        dispatch({ type: DISH_TOP_REQUEST })
+
+        const { data } = await axios.get(`/api/dishes/top`)
+
+        dispatch({
+            type: DISH_TOP_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: DISH_TOP_FAIL,
             payload: error.response && error.response.data.message 
                 ? error.response.data.message
                 : error.message

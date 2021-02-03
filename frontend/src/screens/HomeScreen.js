@@ -6,6 +6,7 @@ import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import Message from '../components/Message'
 import { listDishes } from '../actions/dishActions'
+import DishCarousel from '../components/DishCarousel'
 
 
 const HomeScreen = ({match}) => {
@@ -24,6 +25,7 @@ const HomeScreen = ({match}) => {
 
     return (
         <>
+            {!keyword && <DishCarousel />}
             <h1>Best Dishes</h1>
             {loading ? 
                 <Loader />

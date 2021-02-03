@@ -6,7 +6,8 @@ import {
     deleteDish, 
     updateDish, 
     createDish, 
-    createDishReview 
+    createDishReview, 
+    getTopDishes
 } from '../controllers/dishController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
@@ -17,7 +18,7 @@ router
     .get(getDishes)
     .post(protect, admin, createDish)
 router.route('/:id/reviews').post(protect, createDishReview)
-
+router.get('/top', getTopDishes)
 router
     .route('/:id')
     .get(getDishById)

@@ -19,7 +19,10 @@ import {
     DISH_CREATE_REVIEW_REQUEST,
     DISH_CREATE_REVIEW_SUCCESS,
     DISH_CREATE_REVIEW_FAIL,
-    DISH_CREATE_REVIEW_RESET
+    DISH_CREATE_REVIEW_RESET,
+    DISH_TOP_REQUEST,
+    DISH_TOP_SUCCESS,
+    DISH_TOP_FAIL
 } from '../constants/dishConstants'
 
 export const dishListReducer = (state = {dishes: [] }, action) => {
@@ -105,6 +108,19 @@ export const dishCreateReviewReducer = (state = { }, action) => {
             return { loading: false, error: action.payload }
         case DISH_CREATE_REVIEW_RESET:
             return {}
+        default:
+            return state
+    }
+}
+
+export const dishTopRatedReducer = (state = {dishes:[]}, action) => {
+    switch (action.type) {
+        case DISH_TOP_REQUEST:
+            return { loading: true, dishes: [] }
+        case DISH_TOP_SUCCESS:
+            return { loading: false, dishes: action.payload }
+        case DISH_TOP_FAIL:
+            return { loading: false, error: action.payload }
         default:
             return state
     }
