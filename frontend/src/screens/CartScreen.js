@@ -31,6 +31,10 @@ const CartScreen = ( {match, location, history} ) => {
     }
 
     return (
+        <>
+            <Link className='btn btn-dark my-3' to='/'>
+                Want more? GO BACK to the menu!
+            </Link>
         <Row>
             <Col md={8}>
                 <h1>Your Tray</h1>
@@ -87,6 +91,7 @@ const CartScreen = ( {match, location, history} ) => {
                 </Card>
             </Col>
         </Row>
+        </>
     )
 }
 

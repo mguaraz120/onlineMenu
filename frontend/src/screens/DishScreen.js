@@ -49,8 +49,8 @@ const DishScreen = ({history, match}) => {
 
     return (
         <>
-            <Link className='btn btn-light my-3' to='/'>
-                Go Back
+            <Link className='btn btn-dark my-3' to='/'>
+                Add it to your tray. Not sure? GO BACK to the menu.
             </Link>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
             <>
