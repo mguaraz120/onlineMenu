@@ -64,15 +64,10 @@ const DishScreen = ({history, match}) => {
                             <ListGroupItem>
                                 <h2>{dish.name}</h2>
                             </ListGroupItem>
-                            <ListGroupItem>
-                                <Rating
-                                    value={dish.rating} 
-                                    text={`${dish.numReviews} reviews`}
-                                />
-                            </ListGroupItem>
-                            <ListGroupItem>
+
+                            {/* <ListGroupItem>
                                 Price: ${dish.price}
-                            </ListGroupItem>
+                            </ListGroupItem> */}
                             <ListGroupItem>
                                 {dish.description}
                             </ListGroupItem>
@@ -135,6 +130,12 @@ const DishScreen = ({history, match}) => {
                 <Row>
                     <Col md={6}>
                         <h2>Reviews</h2>
+                        <ListGroupItem>
+                                <Rating
+                                    value={dish.rating} 
+                                    text={`${dish.numReviews} reviews`}
+                                />
+                        </ListGroupItem>
                         {dish.reviews.length === 0 && <Message>No Reviews</Message>}
                         <ListGroup variant='flush'>
                             {dish.reviews.map(review => (
