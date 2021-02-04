@@ -26,7 +26,7 @@ const Header = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Route render={({ history }) => <SearchBox history={history} />}/>
-                        <Nav className="ml-auto">
+                        <Nav className="ml-auto derecha">
                             <LinkContainer to='/'>
                                 <Nav.Link href="/"><i className="fas fa-clipboard-list"></i> Main Menu</Nav.Link>
                             </LinkContainer>
