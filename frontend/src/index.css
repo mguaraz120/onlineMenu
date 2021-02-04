@@ -1,3 +1,7 @@
+body {
+	background-color: #f8f8ff;
+}
+
 main {
 	min-height: 80vh;
 }
@@ -25,6 +29,17 @@ h2 {
 
 .rating span {
 	margin: 0.1rem;
+}
+.carta {
+	box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.7);
+	background: rgba(255, 255, 255, 0.1);
+	border-top: rgba(255, 255, 255, 0.5);
+	border-left: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);
+	opacity: 0.7;
+}
+.carta:hover {
+	opacity: 1;
 }
 
 /* carousel */
@@ -73,5 +88,13 @@ h2 {
 	}
 	.searchButton {
 		width: 15%;
+	}
+	.carta {
+		margin-left: 50px;
+	}
+}
+@media (max-width: 768px) {
+	.carta {
+		margin-left: 75px;
 	}
 }
