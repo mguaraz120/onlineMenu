@@ -69,6 +69,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# production
+/frontend/build
+
 # dotenv environment variables file
 .env
 .env.test
